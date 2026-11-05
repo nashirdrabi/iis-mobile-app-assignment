@@ -12,5 +12,17 @@
       320
     ]
   },
-  "github": "pending account authentication"
+  "github": "pending account authentication",
+  "apk": {
+    "path": "build/app/outputs/flutter-apk/app-release.apk",
+    "bytes": 61562194,
+    "sha256": "345087e1578d1a180cd4a7be85fc418584775a59c2d13c6008768f398b7d3cbb",
+    "mode": "release (evaluation debug signing)",
+    "archiveIntegrity": "passed"
+  },
+  "coverage": {
+    "coveredLines": 1944,
+    "totalLines": 2172,
+    "linePercent": 89.5
+  }
 }
