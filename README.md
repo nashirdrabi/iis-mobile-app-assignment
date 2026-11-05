@@ -5,7 +5,7 @@ A standalone Flutter assignment implementing two Figma experiences: **KinTree** 
 ## Submission files
 
 - Source: [https://github.com/nashirdrabi/iis-mobile-app-assignment](https://github.com/nashirdrabi/iis-mobile-app-assignment).
-- Android APK: `build/app/outputs/flutter-apk/app-release.apk` after the build below.
+- Android APK: `build/app/outputs/flutter-apk/app-release.apk` after the build below. Build outputs are Git-ignored; supply this APK separately with the submission. The [CI workflow](.github/workflows/flutter.yml) also uploads an APK artifact after a successful run.
 - Figma comparisons: [design_review/index.html](design_review/index.html), with nine side-by-side screen comparisons.
 - Auth/splash previews: [auth flow](design_review/auth_flow.png) and `design_review/current/auth_*.png`.
 - Firebase verification: [backend results](docs/verification/firebase_backend.json) and [published rules](docs/verification/firestore-rules-published.png).
@@ -15,9 +15,11 @@ A standalone Flutter assignment implementing two Figma experiences: **KinTree** 
 
 Pinned to **Flutter 3.47.9 stable / Dart 3.13.7** in `.fvmrc`. Java 17 and an Android SDK are required. The assignment's ignored `.tooling/flutter` SDK is isolated from the machine's shared SDK and other projects. It is not committed.
 
-With Flutter 3.47.9 on your PATH:
+With Flutter 3.47.9 on your PATH and an Android device/emulator connected:
 
 ```sh
+git clone https://github.com/nashirdrabi/iis-mobile-app-assignment.git
+cd iis-mobile-app-assignment
 flutter pub get
 flutter run
 ```
@@ -126,7 +128,7 @@ Root feature files re-export their presentation entry points for stable imports.
 | `flutter_svg` | Consistent scalable outline icons |
 | `cupertino_icons` | Flutter platform icon support |
 | `flutter_test`, `flutter_lints` | Widget/unit verification and Dart lint rules |
-| `fake_cloud_firestore`, `firebase_auth_mocks`, `mock_exceptions` | Test-only Firebase adapter and security-rule checks; never used by the running app |
+| `fake_cloud_firestore`, `firebase_auth_mocks`, `mock_exceptions` | Test-only Firebase adapter behavior and injected failures; never used by the running app. Security rules are checked separately against the live backend. |
 
 Text controllers and widget lifecycle classes own only input/lifecycle resources. Application and selection state uses Riverpod; there are no `setState` calls.
 
@@ -140,6 +142,29 @@ Text controllers and widget lifecycle classes own only input/lifecycle resources
 - Error: form validation, readable Firebase errors, startup/profile retry, profile and playlist save failure messages.
 - Success: authenticated chooser, saved onboarding, profile update feedback and local playlist confirmation.
 - Navigation: named main/auth/settings routes, nested detail navigation, working back stack and switching between experiences.
+
+## Quick reviewer walkthrough
+
+1. Install the supplied APK, or run the project using the setup steps above. A network connection is required for new authentication.
+2. On a fresh install, complete **Get started**, then select **Create an account**. Supply a name, email and password of at least six characters. No shared demo credentials are required.
+3. After registration, choose **KinTree** or **Meditation & Music** and visit each bottom navigation tab. In meditation, open the Profile menu to reach **Settings & Practice**.
+4. To change experiences, use KinTree's header avatar menu → **Switch app**, or meditation's Profile menu → Settings' top-right emblem menu → **Switch app**.
+5. Edit the account name from KinTree **Profile → Edit Profile**. Restart the app to inspect session restoration. Sign out and sign back in to check authentication and persisted onboarding status.
+6. Review the comparison images below. In each image, the Figma reference is on the left and the Flutter render is on the right. To use the interactive comparison selector, open `design_review/index.html` locally after cloning; GitHub displays its source.
+
+### Screen comparison links
+
+| Experience | Screen | Comparison |
+|---|---|---|
+| KinTree | Home Dashboard | [Figma / Flutter](design_review/comparisons/kintree_home.png) |
+| KinTree | Family Tree | [Figma / Flutter](design_review/comparisons/kintree_tree.png) |
+| KinTree | Family Chat Inbox | [Figma / Flutter](design_review/comparisons/kintree_chat.png) |
+| KinTree | User Profile | [Figma / Flutter](design_review/comparisons/kintree_profile.png) |
+| Meditation | Home | [Figma / Flutter](design_review/comparisons/meditation_home.png) |
+| Meditation | My Albums | [Figma / Flutter](design_review/comparisons/meditation_albums.png) |
+| Meditation | Playlists | [Figma / Flutter](design_review/comparisons/meditation_playlists.png) |
+| Meditation | My Profile | [Figma / Flutter](design_review/comparisons/meditation_profile.png) |
+| Meditation | Settings & Practice | [Figma / Flutter](design_review/comparisons/meditation_settings.png) |
 
 ## Local storage and offline behavior
 
