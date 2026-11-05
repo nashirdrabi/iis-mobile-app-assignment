@@ -4,7 +4,7 @@ A standalone Flutter assignment implementing two Figma experiences: **KinTree** 
 
 ## Submission files
 
-- Source: this Git repository. Remote publication requires an authenticated GitHub account.
+- Source: [https://github.com/nashirdrabi/iis-mobile-app-assignment](https://github.com/nashirdrabi/iis-mobile-app-assignment).
 - Android APK: `build/app/outputs/flutter-apk/app-release.apk` after the build below.
 - Figma comparisons: [design_review/index.html](design_review/index.html), with nine side-by-side screen comparisons.
 - Auth/splash previews: [auth flow](design_review/auth_flow.png) and `design_review/current/auth_*.png`.
@@ -177,4 +177,4 @@ The evaluation APK uses the project's debug signing identity in release mode; a 
 - KinTree profile name is editable Firebase account data. Meditation's named demo profile/statistics preserve the supplied Figma example.
 - The full nine-screen Figma comparison is supplied, but no zero-pixel-difference claim is made.
 - APK generation and backend API checks are verified separately from device end-to-end interaction. iOS/web/desktop and store deployment are outside the supplied Android configuration.
-- GitHub remote publication remains pending until a GitHub account is authenticated; the local assignment repository is ready. After `gh auth login`, publish it with `gh repo create iis-mobile-application --private --source=. --push`. Give the reviewer access if the repository stays private.
+- Repository: [https://github.com/nashirdrabi/iis-mobile-app-assignment](https://github.com/nashirdrabi/iis-mobile-app-assignment). Give the reviewer access if the repository is private.

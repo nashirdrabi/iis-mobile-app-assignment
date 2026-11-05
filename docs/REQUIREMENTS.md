@@ -19,6 +19,6 @@
 | README | Setup, Firebase, packages, architecture, assumptions, features, limitations and test/build commands |
 | APK | Release-mode evaluation build under `build/app/outputs/flutter-apk/` |
 | Comparison screenshots | Nine Figma comparisons plus four auth/splash renders |
-| GitHub URL | Pending authenticated GitHub access; local Git repository prepared |
+| GitHub URL | [https://github.com/nashirdrabi/iis-mobile-app-assignment](https://github.com/nashirdrabi/iis-mobile-app-assignment) |
 
 The illustrated product content and secondary features are prototypes, as described in README. Firebase account/onboarding paths are real. Visual review evidence is included; exact pixel identity and unimplemented backend services are not asserted.

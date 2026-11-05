@@ -12,7 +12,10 @@
       320
     ]
   },
-  "github": "pending account authentication",
+  "github": {
+    "repository": "https://github.com/nashirdrabi/iis-mobile-app-assignment",
+    "branch": "main"
+  },
   "apk": {
     "path": "build/app/outputs/flutter-apk/app-release.apk",
     "bytes": 61562194,
