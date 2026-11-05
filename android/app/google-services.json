@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "465247621088",
+    "project_id": "iis-mobile-application-12e04",
+    "storage_bucket": "iis-mobile-application-12e04.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:465247621088:android:9751d33b4c22a57f8fe585",
+        "android_client_info": {
+          "package_name": "com.indosakura.iis_mobile_application"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDYMeCp1HnvawxTRXlFDmdmSgRFIfiNjgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

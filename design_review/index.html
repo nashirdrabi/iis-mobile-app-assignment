@@ -1,0 +1,13 @@
+<!doctype html><html lang="en"><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>IIS · Figma comparison</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#ecebf1;color:#1a1a2a;font:15px system-ui,sans-serif}
+header{position:sticky;top:0;background:#fff;padding:16px 24px;box-shadow:0 2px 12px #0001;z-index:1}
+h1{font-size:20px;margin:0 0 8px}p{margin:8px 0;color:#596274}select{font:inherit;padding:9px;border:1px solid #d7d2e6;border-radius:8px;max-width:100%}
+main{max-width:850px;margin:20px auto;padding:0 12px}img{display:block;width:100%;height:auto}a{color:#4f46e5}
+</style><header><h1>IIS Mobile Application · Design review</h1>
+<p>Figma reference on the left. Rendered Flutter UI on the right. Select any of the nine screens.</p>
+<select id="screen"><option value="kintree_home">KinTree · Home</option><option value="kintree_tree">KinTree · Family Tree</option><option value="kintree_chat">KinTree · Family Chat</option><option value="kintree_profile">KinTree · Profile</option><option value="meditation_home">Meditation · Home</option><option value="meditation_albums">Meditation · My Albums</option><option value="meditation_playlists">Meditation · Playlists</option><option value="meditation_profile">Meditation · Profile</option><option value="meditation_settings">Meditation · Settings &amp; Practice</option></select> <a id="full" href="comparisons/kintree_home.png">Open full size</a>
+</header><main><img id="comparison" src="comparisons/kintree_home.png" alt="Figma reference beside Flutter output"></main>
+<script>document.getElementById('screen').addEventListener('change',e=>{const p='comparisons/'+e.target.value+'.png';document.getElementById('comparison').src=p;document.getElementById('full').href=p;window.scrollTo(0,0)})</script></html>
