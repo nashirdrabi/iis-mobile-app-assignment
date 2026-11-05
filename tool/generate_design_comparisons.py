@@ -49,7 +49,21 @@ main{max-width:850px;margin:20px auto;padding:0 12px}img{display:block;width:100
 </style><header><h1>IIS Mobile Application · Design review</h1>
 <p>Figma reference on the left. Rendered Flutter UI on the right. Select any of the nine screens.</p>
 <select id="screen">OPTIONS</select> <a id="full" href="comparisons/kintree_home.png">Open full size</a>
+<p><a href="auth_flow.png">View themed splash, onboarding, sign-in and registration</a></p>
 </header><main><img id="comparison" src="comparisons/kintree_home.png" alt="Figma reference beside Flutter output"></main>
 <script>document.getElementById('screen').addEventListener('change',e=>{const p='comparisons/'+e.target.value+'.png';document.getElementById('comparison').src=p;document.getElementById('full').href=p;window.scrollTo(0,0)})</script></html>"""
 (root / "index.html").write_text(html.replace("OPTIONS", "".join(options)))
 print(f"Created {len(titles)} screen comparisons and {root / 'index.html'}")
+
+# Authentication has no supplied Figma reference; show rendered output only.
+auth_names = [("auth_splash", "Splash"), ("auth_onboarding", "Onboarding"), ("auth_login", "Sign in"), ("auth_register", "Registration")]
+if all((root / "current" / f"{name}.png").exists() for name, _ in auth_names):
+    previews = [Image.open(root / "current" / f"{name}.png").convert("RGB") for name, _ in auth_names]
+    sheet = Image.new("RGB", (sum(im.width for im in previews) + 40, max(im.height for im in previews) + 38), "#ebe8f2")
+    draw = ImageDraw.Draw(sheet)
+    x = 8
+    for (_, title), preview in zip(auth_names, previews):
+        draw.text((x, 10), title + " — Flutter output", fill="black")
+        sheet.paste(preview, (x, 30))
+        x += preview.width + 8
+    sheet.save(root / "auth_flow.png")

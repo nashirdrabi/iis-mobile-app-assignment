@@ -1,0 +1,16 @@
+{
+  "flutter": "3.47.9 stable",
+  "dart": "3.13.7",
+  "analyzer": "passed",
+  "tests": 25,
+  "testsResult": "passed",
+  "renders": {
+    "figmaScreens": 9,
+    "sharedScreens": 4,
+    "widthsChecked": [
+      390,
+      320
+    ]
+  },
+  "github": "pending account authentication"
+}

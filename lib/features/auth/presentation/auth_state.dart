@@ -1,95 +1,77 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../data/firebase_auth_repository.dart';
+import '../data/preferences_profile_cache.dart';
 import '../domain/auth_repository.dart';
+import '../domain/profile_cache.dart';
 import '../domain/user_profile.dart';
 
 final preferencesProvider = Provider<SharedPreferences>(
-  (ref) => throw UnimplementedError(),
+  (ref) => throw UnimplementedError('Bootstrap must supply SharedPreferences.'),
+);
+final profileCacheProvider = Provider<ProfileCache>(
+  (ref) => PreferencesProfileCache(ref.watch(preferencesProvider)),
 );
 final authRepositoryProvider = Provider<AuthRepository>(
-  (ref) => FirebaseAuthRepository(),
+  (ref) => FirebaseAuthRepository(cache: ref.watch(profileCacheProvider)),
 );
 final authProvider = AsyncNotifierProvider<AuthController, UserProfile?>(
   AuthController.new,
 );
+final authActionProvider =
+    NotifierProvider<AuthActionController, AsyncValue<void>>(
+      AuthActionController.new,
+    );
+
+class AuthActionController extends Notifier<AsyncValue<void>> {
+  @override
+  AsyncValue<void> build() => const AsyncData(null);
+  void loading() => state = const AsyncLoading();
+  void success() => state = const AsyncData(null);
+  void fail(Object error, StackTrace stack) => state = AsyncError(error, stack);
+  void clear() => state = const AsyncData(null);
+}
 
 class AuthController extends AsyncNotifier<UserProfile?> {
-  late AuthRepository repository;
-
+  AuthRepository get repository => ref.read(authRepositoryProvider);
   @override
-  Future<UserProfile?> build() {
-    repository = ref.watch(authRepositoryProvider);
-    return repository.currentUser();
+  Future<UserProfile?> build() =>
+      ref.watch(authRepositoryProvider).currentUser();
+  Future<bool> _perform(Future<UserProfile?> Function() action) async {
+    final status = ref.read(authActionProvider.notifier);
+    if (ref.read(authActionProvider).isLoading) return false;
+    status.loading();
+    try {
+      final result = await action();
+      state = AsyncData(result);
+      status.success();
+      return true;
+    } catch (error, stack) {
+      status.fail(error, stack);
+      return false;
+    }
   }
 
-  Future<void> signIn(String email, String password) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(() => repository.signIn(email, password));
-  }
-
-  Future<void> createAccount(String name, String email, String password) async {
-    state = const AsyncLoading();
-    state = await AsyncValue.guard(
-      () => repository.createAccount(name, email, password),
-    );
-  }
-
-  Future<void> updateName(String name) async {
-    state = await AsyncValue.guard(() => repository.updateName(name));
-  }
-
-  Future<void> signOut() async {
+  Future<bool> signIn(String email, String password) =>
+      _perform(() => repository.signIn(email, password));
+  Future<bool> createAccount(String name, String email, String password) =>
+      _perform(() => repository.createAccount(name, email, password));
+  Future<bool> updateName(String name) =>
+      _perform(() => repository.updateName(name));
+  Future<bool> signOut() => _perform(() async {
     await repository.signOut();
-    state = const AsyncData(null);
-  }
+    return null;
+  });
+  Future<bool> completeIntroduction() => _perform(() async {
+    await repository.completeOnboarding();
+    await ref.read(profileCacheProvider).markIntroductionSeen();
+    ref.invalidate(onboardingProvider);
+    return state.value?.copyWith(onboardingComplete: true);
+  });
 }
 
 final onboardingProvider = Provider<bool>(
-  (ref) =>
-      ref
-          .watch(preferencesProvider)
-          .getBool('assignment.onboarding.complete') ??
-      false,
+  (ref) => ref.watch(profileCacheProvider).introductionSeen,
 );
-
-Future<void> completeOnboarding(WidgetRef ref) async {
-  await ref
-      .read(preferencesProvider)
-      .setBool('assignment.onboarding.complete', true);
-  ref.invalidate(onboardingProvider);
-  await ref.read(authRepositoryProvider).completeOnboarding();
-}
-
-final playlistsProvider = NotifierProvider<PlaylistsController, List<String>>(
-  PlaylistsController.new,
-);
-
-class PlaylistsController extends Notifier<List<String>> {
-  static const _key = 'assignment.music.playlists';
-  @override
-  List<String> build() =>
-      ref.watch(preferencesProvider).getStringList(_key) ??
-      [
-        'Daily Twin Hearts Routine',
-        'Evening Aura Cleansing & Chakra Healing',
-        'Arhatic Dhyan & Kundalini',
-      ];
-  Future<void> add(String value) async {
-    final next = [value, ...state];
-    state = next;
-    await ref.read(preferencesProvider).setStringList(_key, next);
-  }
-}
-
-final playingTrackProvider = NotifierProvider<PlayingTrackController, String?>(
-  PlayingTrackController.new,
-);
-
-class PlayingTrackController extends Notifier<String?> {
-  @override
-  String? build() => null;
-  void play(String track) => state = track;
-  void stop() => state = null;
-}
+Future<bool> completeOnboarding(WidgetRef ref) =>
+    ref.read(authProvider.notifier).completeIntroduction();

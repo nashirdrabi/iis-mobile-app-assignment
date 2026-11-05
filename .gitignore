@@ -43,3 +43,17 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Generated Android reports and Firebase CLI state
+/android/build/
+.firebase/
+firebase-debug.log
+firestore-debug.log
+.env
+*.jks
+*.keystore
+
+# Project-local SDK, isolated from other apps
+.tooling/
+
+/android/.kotlin/

@@ -1,3 +1,7 @@
+import 'features/auth/presentation/auth_theme.dart';
+import 'core/widgets/sanctuary_brand.dart';
+import 'features/meditation/meditation_design_system.dart';
+import 'core/routing/app_routes.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -14,37 +18,13 @@ class AssignmentApp extends StatelessWidget {
   Widget build(BuildContext context) => MaterialApp(
     title: 'IIS Mobile Application',
     debugShowCheckedModeBanner: false,
-    theme: ThemeData(
-      useMaterial3: false,
-      fontFamily: 'Georgia',
-      scaffoldBackgroundColor: paper,
-      colorScheme: ColorScheme.fromSeed(seedColor: forest),
-      inputDecorationTheme: InputDecorationTheme(
-        filled: true,
-        fillColor: Colors.white,
-        contentPadding: const EdgeInsets.symmetric(
-          horizontal: 16,
-          vertical: 16,
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE9E6DF)),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: Color(0xFFE9E6DF)),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(14),
-          borderSide: const BorderSide(color: forest, width: 1.5),
-        ),
-      ),
-      cardTheme: CardThemeData(
-        color: Colors.white,
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-      ),
-    ),
+    theme: authTheme(),
+    routes: {
+      AppRoutes.register: (_) => const RegisterPage(),
+      AppRoutes.kinTree: (_) => const KinTreeApp(),
+      AppRoutes.meditation: (_) => const MeditationApp(),
+      AppRoutes.settings: (_) => const MusicSettingsPage(),
+    },
     home: const SplashScreen(),
   );
 }
@@ -73,63 +53,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    backgroundColor: paper,
-    body: SafeArea(
-      child: Center(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 104,
-              height: 104,
-              decoration: BoxDecoration(
-                color: forest,
-                borderRadius: BorderRadius.circular(34),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x25214D3F),
-                    blurRadius: 24,
-                    offset: Offset(0, 12),
-                  ),
-                ],
-              ),
-              child: const Icon(
-                Icons.account_tree_rounded,
-                color: Colors.white,
-                size: 52,
-              ),
-            ),
-            const SizedBox(height: 22),
-            const Text(
-              'KinTree',
-              style: TextStyle(
-                fontFamily: 'Georgia',
-                fontSize: 34,
-                fontWeight: FontWeight.w700,
-                color: forest,
-              ),
-            ),
-            const SizedBox(height: 7),
-            const Text(
-              'Every branch holds a story',
-              style: TextStyle(fontSize: 14, color: Color(0xFF6E746F)),
-            ),
-            const SizedBox(height: 36),
-            const SizedBox(
-              width: 38,
-              child: LinearProgressIndicator(
-                minHeight: 3,
-                borderRadius: BorderRadius.all(Radius.circular(4)),
-                color: forest,
-                backgroundColor: Color(0xFFDDE5DE),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
+  Widget build(BuildContext context) => const SanctuarySplash();
 }
 
 class EntryGate extends ConsumerWidget {
@@ -139,14 +63,21 @@ class EntryGate extends ConsumerWidget {
     final auth = ref.watch(authProvider);
     return auth.when(
       loading: () => const Scaffold(
-        backgroundColor: paper,
+        backgroundColor: MeditationPalette.canvas,
         body: Center(
-          child: CircularProgressIndicator(color: forest, strokeWidth: 2.5),
+          child: CircularProgressIndicator(
+            color: MeditationPalette.primary,
+            strokeWidth: 2.5,
+          ),
         ),
       ),
       error: (error, _) => AuthErrorPage(message: error.toString()),
       data: (user) {
-        if (user != null) return const ExperienceChooser();
+        if (user != null) {
+          return user.onboardingComplete
+              ? const ExperienceChooser()
+              : const OnboardingPage();
+        }
         if (!ref.watch(onboardingProvider)) return const OnboardingPage();
         return const LoginPage();
       },
@@ -176,7 +107,7 @@ class ExperienceChooser extends ConsumerWidget {
               ),
               const SizedBox(height: 8),
               const Text(
-                'One sign-in, two experiences from your assignment.',
+                'One sign-in for your family heritage and daily practice.',
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.black54),
               ),
@@ -186,10 +117,7 @@ class ExperienceChooser extends ConsumerWidget {
                 detail: 'Family stories, heritage and conversations',
                 icon: Icons.account_tree_rounded,
                 color: const Color(0xFFE5EEE8),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const KinTreeApp()),
-                ),
+                onTap: () => Navigator.pushNamed(context, AppRoutes.kinTree),
               ),
               const SizedBox(height: 14),
               _ExperienceCard(
@@ -197,10 +125,7 @@ class ExperienceChooser extends ConsumerWidget {
                 detail: 'Guided practice, albums and playlists',
                 icon: Icons.spa_rounded,
                 color: const Color(0xFFF0E9FF),
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const MeditationApp()),
-                ),
+                onTap: () => Navigator.pushNamed(context, AppRoutes.meditation),
               ),
               const SizedBox(height: 24),
               TextButton.icon(

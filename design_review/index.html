@@ -9,5 +9,6 @@ main{max-width:850px;margin:20px auto;padding:0 12px}img{display:block;width:100
 </style><header><h1>IIS Mobile Application · Design review</h1>
 <p>Figma reference on the left. Rendered Flutter UI on the right. Select any of the nine screens.</p>
 <select id="screen"><option value="kintree_home">KinTree · Home</option><option value="kintree_tree">KinTree · Family Tree</option><option value="kintree_chat">KinTree · Family Chat</option><option value="kintree_profile">KinTree · Profile</option><option value="meditation_home">Meditation · Home</option><option value="meditation_albums">Meditation · My Albums</option><option value="meditation_playlists">Meditation · Playlists</option><option value="meditation_profile">Meditation · Profile</option><option value="meditation_settings">Meditation · Settings &amp; Practice</option></select> <a id="full" href="comparisons/kintree_home.png">Open full size</a>
+<p><a href="auth_flow.png">View themed splash, onboarding, sign-in and registration</a></p>
 </header><main><img id="comparison" src="comparisons/kintree_home.png" alt="Figma reference beside Flutter output"></main>
 <script>document.getElementById('screen').addEventListener('change',e=>{const p='comparisons/'+e.target.value+'.png';document.getElementById('comparison').src=p;document.getElementById('full').href=p;window.scrollTo(0,0)})</script></html>

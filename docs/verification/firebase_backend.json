@@ -1,0 +1,54 @@
+{
+  "project": "iis-mobile-application-12e04",
+  "checkedAt": "2026-11-05T16:10:36.248648+00:00",
+  "checks": [
+    {
+      "check": "Firebase Auth registration",
+      "result": "passed"
+    },
+    {
+      "check": "Firebase Auth sign-in",
+      "result": "passed"
+    },
+    {
+      "check": "Incorrect password rejected",
+      "result": "passed"
+    },
+    {
+      "check": "Firestore profile create/read",
+      "result": "passed"
+    },
+    {
+      "check": "Firestore onboarding update/read",
+      "result": "passed"
+    },
+    {
+      "check": "Unauthenticated profile access denied",
+      "result": "passed"
+    },
+    {
+      "check": "Other authenticated account profile access denied",
+      "result": "passed"
+    },
+    {
+      "check": "Forged profile UID rejected",
+      "result": "passed"
+    },
+    {
+      "check": "Invalid onboarding field type rejected",
+      "result": "passed"
+    },
+    {
+      "check": "Temporary profile cleanup",
+      "result": "passed"
+    },
+    {
+      "check": "Temporary auth account cleanup",
+      "result": "passed"
+    },
+    {
+      "check": "Secondary test account cleanup",
+      "result": "passed"
+    }
+  ]
+}
