@@ -8,9 +8,11 @@ final playlistRepositoryProvider = Provider<PlaylistRepository>(
     ref.watch(preferencesProvider),
     owner: ref.watch(authProvider).value?.id ?? 'guest',
   ),
+  dependencies: [preferencesProvider, authProvider],
 );
 final playlistsProvider = NotifierProvider<PlaylistsController, List<String>>(
   PlaylistsController.new,
+  dependencies: [playlistRepositoryProvider],
 );
 
 class PlaylistsController extends Notifier<List<String>> {

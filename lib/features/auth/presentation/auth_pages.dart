@@ -6,6 +6,7 @@ import '../../../core/state/selection_state.dart';
 import '../../../core/widgets/sanctuary_brand.dart';
 import '../../meditation/meditation_design_system.dart';
 import 'auth_state.dart';
+import 'auth_error_message.dart';
 
 class OnboardingPage extends ConsumerWidget {
   const OnboardingPage({super.key});
@@ -480,7 +481,7 @@ class _AuthError extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
           ),
           child: Text(
-            value.error.toString().replaceFirst('Exception: ', ''),
+            authErrorMessage(value.error),
             style: const TextStyle(
               color: Color(0xFFB42345),
               fontSize: 12,

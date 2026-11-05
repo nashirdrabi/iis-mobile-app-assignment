@@ -15,7 +15,7 @@
 | Typography/colors | Bundled fonts, shared palette and geometry tokens, native outline artwork |
 | Splash and auth theme | Meditation lavender, Inter, indigo/violet, consistent native launch surfaces |
 | Offline handling | Bundled sample content, authenticated UID-scoped cache, network-specific fallback and timeout/retry |
-| Tests | 25 passing unit/widget/offline/navigation/visual tests, live security-rule checks and GitHub Actions workflow |
+| Tests | 29 passing unit/widget/offline/navigation/visual tests, live security-rule checks and GitHub Actions workflow |
 | README | Setup, Firebase, packages, architecture, assumptions, features, limitations and test/build commands |
 | APK | Release-mode evaluation build under `build/app/outputs/flutter-apk/` |
 | Comparison screenshots | Nine Figma comparisons plus four auth/splash renders |

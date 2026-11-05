@@ -1,2 +1,2 @@
 Analyzing iis_mobile_application...                             
-No issues found! (ran in 35.7s)
+No issues found! (ran in 15.1s)

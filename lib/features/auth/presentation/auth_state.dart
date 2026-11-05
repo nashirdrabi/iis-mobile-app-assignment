@@ -6,21 +6,33 @@ import '../domain/auth_repository.dart';
 import '../domain/profile_cache.dart';
 import '../domain/user_profile.dart';
 
+// Bootstrap overrides this provider in an application scope. Every dependent
+// provider must declare its scoped dependencies so it resolves in that scope.
 final preferencesProvider = Provider<SharedPreferences>(
   (ref) => throw UnimplementedError('Bootstrap must supply SharedPreferences.'),
+  dependencies: const [],
 );
 final profileCacheProvider = Provider<ProfileCache>(
   (ref) => PreferencesProfileCache(ref.watch(preferencesProvider)),
+  dependencies: [preferencesProvider],
 );
 final authRepositoryProvider = Provider<AuthRepository>(
   (ref) => FirebaseAuthRepository(cache: ref.watch(profileCacheProvider)),
+  dependencies: [profileCacheProvider],
 );
 final authProvider = AsyncNotifierProvider<AuthController, UserProfile?>(
   AuthController.new,
+  dependencies: [
+    authRepositoryProvider,
+    authActionProvider,
+    profileCacheProvider,
+    onboardingProvider,
+  ],
 );
 final authActionProvider =
     NotifierProvider<AuthActionController, AsyncValue<void>>(
       AuthActionController.new,
+      dependencies: [preferencesProvider],
     );
 
 class AuthActionController extends Notifier<AsyncValue<void>> {
@@ -72,6 +84,7 @@ class AuthController extends AsyncNotifier<UserProfile?> {
 
 final onboardingProvider = Provider<bool>(
   (ref) => ref.watch(profileCacheProvider).introductionSeen,
+  dependencies: [profileCacheProvider],
 );
 Future<bool> completeOnboarding(WidgetRef ref) =>
     ref.read(authProvider.notifier).completeIntroduction();

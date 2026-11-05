@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'features/auth/presentation/auth_pages.dart';
 import 'features/auth/presentation/auth_state.dart';
+import 'features/auth/presentation/auth_error_message.dart';
 import 'features/kintree/kintree_app.dart';
 import 'features/meditation/meditation_app.dart';
 import 'core/theme/palette.dart';
@@ -71,7 +72,7 @@ class EntryGate extends ConsumerWidget {
           ),
         ),
       ),
-      error: (error, _) => AuthErrorPage(message: error.toString()),
+      error: (error, _) => AuthErrorPage(message: authErrorMessage(error)),
       data: (user) {
         if (user != null) {
           return user.onboardingComplete

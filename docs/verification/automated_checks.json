@@ -2,7 +2,7 @@
   "flutter": "3.47.9 stable",
   "dart": "3.13.7",
   "analyzer": "passed",
-  "tests": 25,
+  "tests": 29,
   "testsResult": "passed",
   "renders": {
     "figmaScreens": 9,
@@ -18,14 +18,30 @@
   },
   "apk": {
     "path": "build/app/outputs/flutter-apk/app-release.apk",
-    "bytes": 61562194,
-    "sha256": "345087e1578d1a180cd4a7be85fc418584775a59c2d13c6008768f398b7d3cbb",
+    "bytes": 61644114,
+    "sha256": "09acd11e560d50528ced7c04a5baaea790d6339fdac9f11922c7d2bf75d83549",
     "mode": "release (evaluation debug signing)",
     "archiveIntegrity": "passed"
   },
   "coverage": {
-    "coveredLines": 1944,
-    "totalLines": 2172,
-    "linePercent": 89.5
+    "coveredLines": 1974,
+    "totalLines": 2208,
+    "linePercent": 89.4
+  },
+  "startupRegression": {
+    "result": "passed",
+    "checks": [
+      "nested bootstrap storage resolution",
+      "scoped playlist storage",
+      "bootstrap to onboarding and login",
+      "safe retry message for unexpected startup errors"
+    ]
+  },
+  "androidDeviceCheck": {
+    "device": "Redmi Note 8 Pro",
+    "installation": "updated existing app without clearing data",
+    "startup": "passed: meditation home visible, no provider error",
+    "screenshot": "docs/verification/android-startup-fixed.png",
+    "interactiveNavigation": "not automated: device rejected ADB input injection"
   }
 }
